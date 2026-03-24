@@ -18,9 +18,9 @@ Stack: ollama, websearch-tool, gpt-oss, gpt-oss-safeguard
 * [6-chatbot-tracing](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/6_chabot_mlflow_tracing.ipynb)
 * [7-chatbot-evaluate](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/7_chatbot_evaluation.ipynb)
 * [8-llm-compare-experiments](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/8_compare_models.ipynb)
-* [9-mlflow-fastapi-llm](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/9_fastapi_mlflow.ipynb)
+* [9-streamlit-mlflow-fastapi-ollama](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/9_streamlit_fastapi_mlflow.ipynb)
 
-Stack: fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss
+Stack: streamlit, fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss
 
 ## License
 This project is under the [Apache license](https://github.com/giobbu/notes-ai-agents?tab=Apache-2.0-1-ov-file)
