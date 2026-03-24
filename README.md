@@ -11,7 +11,7 @@ This repository contains a series of notebooks that progressively build and eval
 * [3-small-chat-llms](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/3_small_chat_on_sustainability.ipynb), 
 * [4-gpt-oss-safeguard](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/4_ollama_safeguard.ipynb), 
 
-Stack: ollama, websearch-tool, gpt-oss, gpt-oss-safeguard
+Stack: ollama, websearch-tool, gpt-oss, gpt-oss-safeguard.
 
 ### LLMOps Starters
 * [5-basic-llm-tracing](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/5_llm_mlflow_tracing.ipynb)
@@ -20,7 +20,7 @@ Stack: ollama, websearch-tool, gpt-oss, gpt-oss-safeguard
 * [8-llm-compare-experiments](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/8_compare_models.ipynb)
 * [9-streamlit-mlflow-fastapi-ollama](https://github.com/giobbu/notes-ai-agents/blob/main/notebooks/9_streamlit_fastapi_mlflow.ipynb)
 
-Stack: streamlit, fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss
+Stack: streamlit, fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss.
 
 ## License
-This project is under the [Apache license](https://github.com/giobbu/notes-ai-agents?tab=Apache-2.0-1-ov-file)
+This project is under the MIT license.
