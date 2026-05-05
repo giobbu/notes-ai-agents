@@ -13,26 +13,26 @@ def safe(obj):
         return safe(obj.__dict__)
     return obj
 
-def json_sink(message):
-    r = message.record
-    log = {
-        "timestamp": r["time"].timestamp(),
-        "level": r["level"].name,
-        "message": r["message"],
-        **r["extra"],
-    }
-    log = safe(log)
-    with open("agent_debug.jsonl", "a", encoding="utf-8") as f:
-        f.write(json.dumps(log, ensure_ascii=False) + "\n")
-
-loguru_logger.remove()
-loguru_logger.add(json_sink, level="INFO")
-
+def make_json_sink(filename="logs.jsonl"):
+    def json_sink(message):
+        r = message.record
+        log = {
+            "timestamp": r["time"].timestamp(),
+            "level": r["level"].name,
+            "message": r["message"],
+            **r["extra"],
+        }
+        log = safe(log)
+        with open(filename, mode="a", encoding="utf-8") as f:
+            f.write(json.dumps(log, ensure_ascii=False) + "\n")
+    return json_sink
 
 class CustomLogger:
-
-    def __init__(self):
+    
+    def __init__(self, filename="logs.jsonl"):
         self.logger = loguru_logger
+        self.logger.remove()
+        self.logger.add(make_json_sink(filename), level="INFO")
 
     def info(self, message: str, **context):
         self.logger.bind(**context).info(message)
