@@ -1,6 +1,7 @@
 
 # https://www.aemonge.com/articles/python/debug/logging.html
 from loguru import logger as loguru_logger
+from datetime import datetime
 import json
 
 def safe(obj):
@@ -9,6 +10,8 @@ def safe(obj):
         return {k: safe(v) for k, v in obj.items()}
     if isinstance(obj, list):
         return [safe(v) for v in obj]
+    if isinstance(obj, datetime):
+        return obj.isoformat()
     if hasattr(obj, "__dict__"):
         return safe(obj.__dict__)
     return obj
