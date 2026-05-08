@@ -34,7 +34,8 @@ In `/agent`:
 
 In `/checklists`:
 
-* [0-tool-design-checklist](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/0_tool_design_checklist.ipynb)
+* [0-tool-design](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/0_tool_design.ipynb)
+* [1-metrcis-to-evaluate-agents](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/1_metrcis_eval_agents.ipynb)
 
 ## License
 This project is under the MIT license.
