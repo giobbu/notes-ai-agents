@@ -23,7 +23,7 @@ In `/GenAI_101`:
 * [7-chatbot-evaluate](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/7_chatbot_evaluation.ipynb)
 * [8-llm-compare-experiments](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/8_compare_models.ipynb)
 * [9-streamlit-mlflow-fastapi-ollama](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/9_streamlit_fastapi_mlflow.ipynb)
-* [11-tool-design-checklist](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/11_tool_design_checklist.ipynb)
+
 
 **Stack: streamlit, fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss.**
 
@@ -32,6 +32,9 @@ In `/agent`:
 * [0-react-agent](https://github.com/giobbu/notes-ai-agents/blob/main/agent/0_react_agent.ipynb)
 * [1-stateful-react-agent](https://github.com/giobbu/notes-ai-agents/blob/main/agent/1_memory_agent.ipynb)
 
+In `/checklists`:
+
+* [0-tool-design-checklist](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/0_tool_design_checklist.ipynb)
 
 ## License
 This project is under the MIT license.
