@@ -1,0 +1,630 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        400,
+        704
+      ],
+      "id": "1d095832-776a-4429-97e7-d7c2c56320cf",
+      "name": "When chat message received",
+      "webhookId": "e88a1fb4-ee33-489b-b322-369d9156189d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        656,
+        704
+      ],
+      "id": "0e311173-1ebf-463e-8c7a-74b2a92f0945",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "gpt-oss:20b",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        416,
+        944
+      ],
+      "id": "f21eb72c-626f-4c5d-b180-a3a3e9732488",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7mwjGXsr4wMXRBOF",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileSelector": "/home/node/.n8n-files/*.pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -208,
+        -256
+      ],
+      "id": "94d41472-03ee-40b0-9831-e611b5f2af30",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        -256
+      ],
+      "id": "f316db55-8b0c-4c64-84f5-175b2656f8f7",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "retrieve info chunks related to pdf file",
+        "memoryKey": {
+          "__rl": true,
+          "value": "=articles",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1072,
+        896
+      ],
+      "id": "a6b3b025-92f0-4a51-b6ab-ad4b6cb897ea",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "model": "all-minilm:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1120
+      ],
+      "id": "15b75958-4cd8-4183-97e3-c55bfad0cbe6",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7mwjGXsr4wMXRBOF",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "articles",
+          "mode": "list",
+          "cachedResultName": "articles"
+        },
+        "embeddingBatchSize": 10,
+        "clearStore": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        -256
+      ],
+      "id": "3711d762-024a-4890-98d2-0c912122029d",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.text }}",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "category",
+                "value": "={{ $json['scientific article'] }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        -48
+      ],
+      "id": "82972f3f-2755-4040-974a-0e9d7b24dbe9",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 100,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        128
+      ],
+      "id": "b2b0eadc-795d-4d06-97c9-5b09f752b35b",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "model": "qwen3-embedding:4b"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        112
+      ],
+      "id": "3de9f33c-1dd1-48d8-baed-b148912fb40d",
+      "name": "Embeddings Ollama1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7mwjGXsr4wMXRBOF",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        672,
+        912
+      ],
+      "id": "e2f52ba2-3eea-49bc-88e1-cc7724f27166",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.info.Title }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "scientific article",
+              "description": "the document is a scientific article"
+            },
+            {
+              "category": "unknown",
+              "description": "the document is unknown"
+            },
+            {
+              "category": "job post",
+              "description": "the document contains job description"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "Please classify the title provided by the user into one of the following categories: {categories}, and use the provided formatting instructions below. Don't explain, and only output the json."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        368,
+        176
+      ],
+      "id": "116edcbe-395e-41b8-9613-444b9c7851cb",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small3.2:24b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        336,
+        416
+      ],
+      "id": "32fd87b5-b77f-4ed5-b525-07f29d19e5a7",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7mwjGXsr4wMXRBOF",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1024,
+        176
+      ],
+      "id": "10306b9e-bb06-434a-9609-b400fb960e1c",
+      "name": "Merge",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95d9636e-9a48-4a17-b5d1-8db460646d19",
+              "name": "scientific article",
+              "value": "scientific category",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        0
+      ],
+      "id": "55dcdd2d-70c9-4fff-94f7-6565465bf4ba",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46a5bfaf-e6bb-4b85-b511-0b0a175453d4",
+              "name": "unknow",
+              "value": "unknown category",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        192
+      ],
+      "id": "d66df622-19c8-4fda-a98b-b1d3c88a9d3f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51e95865-7891-4694-ab6d-584b977d4adc",
+              "name": "job description",
+              "value": "job category",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        352
+      ],
+      "id": "4114b228-eef7-4b84-aa93-bd6316ab65e1",
+      "name": "Edit Fields2"
+    }
+  ],
+  "pinData": {
+    "Edit Fields": [
+      {
+        "json": {
+          "scientific article": "scientific category"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Extract from File": [
+      {
+        "json": {
+          "numpages": 9,
+          "numrender": 9,
+          "info": {
+            "PDFFormatVersion": "1.5",
+            "Language": "en",
+            "EncryptFilterName": null,
+            "IsLinearized": false,
+            "IsAcroFormPresent": false,
+            "IsXFAPresent": false,
+            "IsCollectionPresent": false,
+            "IsSignaturesPresent": false,
+            "Author": "Fábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro",
+            "CreationDate": "D:20190813010814Z",
+            "Creator": "LaTeX with acmart 2018/12/16 v1.57 Typesetting articles for the Association for Computing Machinery and hyperref 2016/06/24 v6.83q Hypertext links for LaTeX",
+            "Keywords": "data streams, model monitoring, anomaly detection, concept drift",
+            "ModDate": "D:20190813010814Z",
+            "Custom": {
+              "PTEX.Fullbanner": "This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) kpathsea version 6.2.2"
+            },
+            "Producer": "pdfTeX-1.40.17",
+            "Subject": "",
+            "Title": "Automatic Model Monitoring for Data Streams",
+            "Trapped": {
+              "name": "False"
+            }
+          },
+          "text": "Automatic Model Monitoring for Data Streams\nFábio Pinto\n∗\nfabio.pinto@feedzai.com\nFeedzai\nMarco O. P. Sampaio\n∗\nmarco.sampaio@feedzai.com\nFeedzai\nPedro Bizarro\npedro.bizarro@feedzai.com\nFeedzai\nABSTRACT\nDetecting concept drift is a well known problem that affects produc-\ntion systems. However, two important issues that are frequently not\naddressed in the literature are 1) the detection of drift when the la-\nbels are not immediately available; and 2) the automatic generation\nof explanations to identify possible causes for the drift. For example,\na fraud detection model in online payments could show a drift due\nto a hot sale item (with an increase in false positives) or due to a\ntrue fraud attack (with an increase in false negatives) before labels\nare available. In this paper we propose SAMM, an automatic model\nmonitoring system for data streams. SAMM detects concept drift\nusing a time and space efficient unsupervised streaming algorithm\nand it generates alarm reports with a summary of the events and\nfeatures that are important to explain it. SAMM was evaluated in\nfive real world fraud detection datasets, each spanning periods up\nto eight months and totalling more than 22 million online transac-\ntions. We evaluated SAMM using human feedback from domain\nexperts, by sending them 100 reports generated by the system. Our\nresults show that SAMM is able to detect anomalous events in a\nmodel life cycle that are considered useful by the domain experts.\nGiven these results, SAMM will be rolled out in a next version of\nFeedzai’s Fraud Detection solution.\nKEYWORDS\ndata streams, model monitoring, anomaly detection, concept drift\nACM Reference Format:\nFábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro. . Automatic Model\nMonitoring for Data Streams. In . ACM, New York, NY, USA, 9 pages.\n1 INTRODUCTION\nWhen a Machine Learning (ML) model is deployed into production\nin a data streaming scenario, the monitoring process that follows\nit is essential for the success of the Data Science project. The very\nnature of most data streams implies that they change frequently and\nextremely fast in a non-stationary way [8 ]. Furthermore, in most\napplications, the labels that are required to accurately measure the\nmodel performance are not immediately available, which can lead\nto a late detection of anomalous events in a model life cycle, such as\na hot sale item (where the model could be made less strict to reduce\nfalse alarms), a fraud attack (where the model could be made more\nstrict to block more fraud attempts) or a data issue (e.g., an API\nchanges and suddenly some important data fields are not available,\nso a software fix needs to be developed and installed). To tackle\nthis problem, we propose an Automatic Machine Learning (autoML)\nsystem for model monitoring in data streams. It was designed to\ndetect sudden changes in behaviour occurring in relatively short\n∗\nBoth authors contributed equally to this research.\nKDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA\n.\ntime scales, from a few hours to a few days, in a situation where\nlabels are not immediately available. The system, SAMM (Streaming\nsystem for Automatic Model Monitoring), is able to detect sudden\nchanges, but also to provide relevant information to explain them, a\nvery important feature to understand what caused them especially\nif there is a client in the loop.\nIn recent years the use of ML models in production environments\nbecame a widespread practice. Very frequently an application re-\nquires more than one model, several machines with different envi-\nronments, receives data from several types of devices, in different\ngeographical locations, just to name a few of the complexities. This\nwide scope for unexpected behaviour or sudden changes makes the\ntask of model monitoring extremely challenging if done by humans,\nand it creates an urgent demand for systems like SAMM.\nIn the data streams literature, these sudden changes are recog-\nnized as concept drift [11]. Gama et al. defined concept drift as a\nchange in the joint distribution between a set of input variables\nand a target variable [ 8]. ML algorithms for streaming data must\nbe able to cope and adapt to concept drift. Most available methods\nin the literature tackle this problem by assuming that the labels\nare immediately (or almost immediately) available after prediction.\nThis enables them to use the loss of the predictive model to detect\nconcept drift. However in many use cases, where labels are col-\nlected with several weeks of delay, this is not realistic. SAMM uses\nthe stream of scores produced by the model to detect local changes\nin their distribution. Figure 1 presents a schematic overview of\nSAMM. Let us assume, for simplicity, that the model is responsible\nfor detecting the positive examples of a binary classification task.\nThe top plot in Figure 1 represents the evolution of a data stream,\nin which new patterns (coloured in light red) may suddenly appear\nand impact the ML model performance. Let us also assume, for\nexample, that there is a period of normal behaviour (coloured in\nlight blue) followed by periods of anomalous behaviour (in light\nTime\nAutomatic Model Monitoring\nMachine Learning Model\nData stream\nscore\nsignal\nthreshold\nsignal\n0\n1\nFigure 1: Schematic overview of SAMM.\narXiv:1908.04240v1 [cs.LG] 12 Aug 2019\n\nKDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA Fábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro\nred). In the middle plot of Figure 1 we represent the time series of\nmodel scores produced by the model. Assume that the first period\nof anomalous behaviour is a bot attack in a fraud detection scenario.\nFurthermore, assume that the model could not detect this attack\nwell, as seen by the low risk scores in the middle plot of Figure 1.\nIn our system this shift in the scores distribution is captured by a\nsignal S (bottom plot in Figure 1) that provides a measure of simi-\nlarity between the model scores distribution in a target window T\n(most recent examples) and in a reference window R (see Section 3.1\nfor details). This first example consists of a fraud attack that the\nmodel was not able to block. The same applies for fraud attacks\nthat the model is able to correctly block, as depicted in the second\nanomalous period in the middle plot. This is also useful information\nif certain fraud attacks, that are known to the model, may overload\nthe production system.\nIn the bottom plot of Figure 1, we represent how S evolves over\ntime as the data stream of model scores changes. If S is larger than\na given threshold τ (see Section 3.2 for details) an alarm is triggered.\nFor each alarm that is triggered, we then launch an auxiliary pro-\ncess to provide an explanation, where another ML model is trained\nfor the task of finding the pattern that best distinguishes the ex-\namples in T from the ones in R. The output score and the feature\nimportance of that auxiliary ML model is then used to summarize\nthe characteristics of the alarm (see Section 3.3).\nIn summary, our contributions with SAMM are the following:\n• In Section 3.1, we introduce a method to compute the signal\nand the threshold used to detect concept drift in an unsuper-\nvised way.\n• In Section 3.2, we propose SPEAR, a constant time and mem-\nory streaming algorithm for percentiles estimation (O(n) in\nthe fixed number n of bins).\n• In Section 3.3, we introduce a method to produce explanation\nreports for the drifts. We also introduce a method to remove\ntime correlated features from the model used for the reports.\n• In Section 4, we present experimental results with five real\nworld datasets, in which we show that our method is able to\ndetect anomalous events (validated by users).\n2 RELATED WORK\nRecently, there has been a growing interest in researching autoML\nmethods [4, 13 , 19] – the sub-field of ML research that focuses on\ndeveloping methods with the aim of automating different stages\nof a ML workflow. This interest is largely due to: 1) an increase in\nthe amount of stored data, and 2) the shortage of qualified experts\nto develop ML systems. Early research on autoML has mainly fo-\ncused on model selection and hyperparameter tuning [ 7, 17 , 25 ].\nRecently, however, there has been some effort to extend such meth-\nods to stages such as data cleaning and pre-processing [31 ], feature\nengineering and selection [16 , 26 ], and more recently, model moni-\ntoring [22]. Our contributions in this paper focus on the latter.\nIn the data streams literature, the problem of model monitor-\ning has been tackled mostly as concept drift detection [ 11 ]. The\ntwo most frequently used methods to detect concept drift are AD-\nWIN [2 ] and the Page-Hinkley test [ 10 ]. Both methods take the loss\nof the predictive model as one of the inputs (e.g., the error rate).\nTherefore, they assume that the labels are immediately (or almost\nimmediately) available to compute the loss. This is not always the\ncase in real world applications of ML systems where, depending on\nthe application, labels can take weeks to be available. For this rea-\nson, and because of the growing number of industrial applications\nof ML systems, research on unsupervised concept drift detection\nhas been receiving more attention.\nIn our literature review, we found that the papers by Žliobaite [ 35 ]\nand dos Reis et al. [ 5] present approaches that relate the most with\nours. In the former, the method consists of measuring the differ-\nence in the distributions of the classifier output in two consecutive\nsliding windows of the same size, by applying a statistical test\nsuch as Kolmogorov-Smirnov, Wilcoxon rank sum or t-test. In the\nlatter, the authors propose an incremental Kolmogorov-Smirnov\ntest for faster processing time and in their experiments, one of the\nsliding windows (the oldest) is not consecutive to the most recent\nsliding window, but fixed. Though in both papers the results were\nfavourable to the detection of drifts in an unsupervised fashion, the\nevaluation was either performed by introducing artificial drifts (for\nexample by corrupting feature values) or by focusing on detection\nrates based on the target variable of the predictive model (which\nexcludes drifts that are unrelated to the target variable). In contrast,\nin our study, we focus our evaluation on real datasets with no ar-\ntificial injection of drifts, and we rely instead on user feedback to\nassess the reliability of the alarms that our system triggers.\nSethi and Kantardzic [ 30 ] propose MD3, a method that measures\nthe density of points in the uncertainty regions produced by margin-\nbounded classifiers, such as SVM. According to the authors, since\nthe method is designed to focus on the classifier performance, MD3\nproduces a reduced number of false alarms, enabling the triggering\nof drifts only when they are most likely to affect the classifier\nperformance. Shujian et al. [ 34] propose a hierarchical method that\nincludes two layers of hypothesis tests. Surprisingly, although using\nsignificantly fewer labels, their methods outperforms supervised\ndrift detectors like DDM [9].\nMore recently, there has been a growth in attention for methods\nthat merge the automation of model monitoring and drift detec-\ntion systems. Madrid et al. [22] extended the popular ML tool kit\nscikit-learn to include drift detection methods that allow to auto-\nmatically detect when models should be updated. However, the\nmethod requires labels. Contrastingly, Ghanta et al. [12 ] describe a\nsystem that does not require labels since it only monitors features\ndistributions to detect drifts. This implies that their monitoring is\nstrictly univariate, which can lead to an increase in false positives.\n3 METHOD\nIn this section we present the various components of SAMM, namely\nthe signal (Section 3.1) that is used to trigger an alarm if it grows\nlarger than the threshold (Section 3.2), and the report that is gener-\nated for each alarm (Section 3.3).\n3.1 Signal Computation\nIn our method, the signal value S is computed for each incoming\nevent. The signal consists of a measure of similarity between the\nmodel scores histogram in a reference window R and the model\nscores histogram in a fixed-size target window T . The T window\ncontains the last n\nT \nevents collected. As for R, it contains events in\n\nAutomatic Model Monitoring for Data Streams KDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA\na reference period, which is prior to the target period and it consists\nof the n\nR \nevents immediately before T (fixed-size window), or of the\nevents in a window with a fixed time duration ending at the oldest\nevent in T (fixed-time window). In our study we prefer to use fixed-\nsize windows, though we can apply it to fixed-time windows as well.\nThis gives us a better control of our estimators, since it fixes the\ndependency of the variance on the sample size. In contrast, for time-\nbased windows, when comparing signal values for two different\nevents, we would be comparing signal values computed with two\ndifferent sample sizes. This would be particularly worrying for the\nT window, which is typically smaller. The R window size is chosen\nto be some multiple of the T window size (e.g., 5 times larger).\nAs mentioned before, we designed our system with the goal\nof detecting sudden changes in behaviour occurring in relatively\nshort time scales, from a few hours to a few days, in a situation\nwhere labels are not immediately available. This configuration is\nparticularly well suited to this goal because it provides a comparison\nbetween the T window and the most recent events preceding it. If,\nhowever, the data contains strong seasonality, say certain types of\nevents tend to occur more at certain times of the day, it may induce\nrepetitive daily alarms that will not be so useful. These seasonality\neffects can in principle be removed by adapting the R window. For\nexample, if the periodicity is daily, then the R window could be\ncomposed of several replica windows in preceding days where each\nreplica window lasts for a period homologous to the T window, but\non the previous day, two days ago, three days ago, and so on. The\ndatasets we have analysed in this study did not suffer from this\nissue, so a more extensive discussion of homologous windows will\nbe left to future work.\nRegarding window sizes, we choose the size of the T window in\nunits of the average number of events in some period (e.g., one hour,\nhalf a day or one day). Our preliminary studies showed that the\nsizes of R and T affect directly the amount of noise present in the\nsignal. Very short windows tend to generate noisy signals, which\nresult in more false alarms; very large windows can make the signal\ninsensitive to small changes in the distribution of scores. As a rule\nof thumb, our preliminary studies showed that 3 and 0.5 times the\naverage number of daily events are good default values for the sizes\nof R and T , respectively, for the type of datasets we analysed. We\nuse these parameter values to compute S in the remainder of the\npaper, and defer a more thorough sensitivity study to a future work.\nThe signal S is defined using a measure M of similarity between\nhistograms such that S = M(R,T ). In this study we will present\nresults using the Jensen-Shannon Divergence (JSD) [ 20 ], though\nother measures are possible. In preliminary studies we also anal-\nysed the Kolmogorov-Smirnov, Kuiper and Anderson-Darling test\nstatistics as distance measures [1 , 18, 24 ]. Except for differences in\nthe noise level (higher in some cases), we did not find these alterna-\ntive signals to be substantially different. On the other hand, the JSD\nhas some appealing information theoretical properties. Namely, it is\na measure of the mutual information between the random variable\ngenerated by a binary mixture model of the two distributions and\nthe corresponding binary indicator variable. Furthermore, similarly\nto the other measures, it is bounded and symmetric. When the\ndistributions are the same, it goes to zero, whereas when they have\ndisjoint domains it goes to log 2 (or 1 if entropy is measured in\nshannon units). Finally, the JSD is also trivially computed for multi-\ndimensional distributions, making it a good solution to compute S\nin multi-class model monitoring use cases. However, in this paper,\nwe only perform experiments for binary classification problems.\n3.2 Threshold\nIn this Section we present a method to compute a threshold, for the\nsignal, above which an alarm is triggered. In a stationary environ-\nment, a simple procedure to define outlier values for the signal is to\nflag all values that fall in the upper tail of the distribution computed\nwith the whole series (e.g., above the 95th percentile). To compute\nthe threshold using such a definition, we need a reliable and flex-\nible method to estimate percentiles in streaming scenarios. Most\nmethods in the literature resort to sampling previously observed\ninstances and keeping them in memory (e.g., Q-digest or, more\nrecently, the T-digest algorithm [6] – see also the review by Luo et\nal. [21 ]). Though sampling can provide high memory compression\nand high accuracy estimates, it often requires managing clusters of\nsamples including sorting operations. In our study, we do not need\nhigh accuracy estimates, thus we adopt a lighter approach with a\nfixed number of bins updated all at once, with a single linear pass,\nwhich can then be used to estimate any percentile through interpo-\nlation. Our approach amounts to a stochastic approximation of the\ncumulative distribution function. Earlier studies following similar\ndensity estimation strategies are [ 3, 14, 27 , 32]. Our approach differs\nin that we use a simple percentiles update strategy anchored on\nthe principle of restoring the invariant (on each new event) that\nthe average count per bin is the same for all bins.\nWe design an algorithm and related data structure, named SPEAR\n(Streaming Percentiles EstimAtoR), with the following properties:\n• Space efficiency: we only save a fixed size O(n) object with the\npositions of n + 1 percentile estimates P ≡ [P\n0\n, P\n1\n, . . . , P\nn \n]\n,\nwhere P\n0 \nand P\nn \nprovide estimates of the lower/upper range\nof the domain of the distribution, respectively.\n• Time efficiency: the time complexity for each incoming event\nis O(n), so that on any new event all percentiles are updated\nin a single pass over the percentiles object.\n• Streaming implementation: each event is processed only once\nand the new estimate P only depends on the last estimate.\nWe will show empirically, with real datasets, that the algorithm\nworks well enough to be used with SAMM. A formal study of the\nconvergence properties and estimation efficiency of the algorithm\nis out of the scope of this paper and it will be left to future work.\nIn Algorithm 1 the pseudo-code is presented. The first 10 lines\nrepresent the sequential consumption of the values as they stream\ninto the system. Inside the while loop, for the first n + 1 values that\nstream in, the values are inserted into the global list P in sorted\norder, to initialise an estimate of the n + 1 percentile positions.\nFor simplicity, here we assume that the values streaming in are\nalmost surely unique. If that’s not the case, which is often true\nin practice if round off occurs or if the distribution of values is\ndiscrete, the initialisation step can be modified to include some\nnumerical noise, so that all initial percentile position values are\nunique. The percentile position estimates are later updated when\nmore events stream in, so the impact of this initialisation should fade\naway as more data is collected. The subsequent values for C > n,\n\nKDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA Fábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro\nAlgorithm 1 SPEAR – Consumes a stream of values in real time.\n1: stream = newStream( )\n2: P ← [] ▷ Initialise global empty list of approximate percentiles\n3: C = 0 ▷ Initialise count variable\n4: while stream.notClosed( ) do\n5: X = stream.getValue( ) ▷ Get last value received\n6: C ← C + 1 ▷ Update count\n7: if C ≤ n then ▷ Initialise P using first n + 1 values\n8: P ← P.InsertSorted(X )\n9: else ▷ Update P otherwise\n10: P ← UpdatePercentiles(P, X , C)\n11:\n12: function UpdatePercentiles(P, X , C)\n13: c\nper_bin \n← C/n ▷ Counts per bin before update\n14: c\ntarget \n← (C + 1)/n ▷ Target counts per bin after update\n15:\n16: c\nthis \n← c\nper_bin \n▷ Set count at current bin (bin\n1\n)\n17: if X < P\n0 \nthen ▷ X to the left of bin\n1\n18: P\n0 \n← X ▷ Left-expand bin\n1 \n(move P\n0 \nleft)\n19: if X < P\n1 \nthen ▷ X in bin\n1 \nor to the left\n20: c\nthis \n← c\nthis \n+ 1 ▷ Increase count to add X to bin\n1\n21:\n22: for i ← 1, . . . , n − 1 do ▷ Move internal bin walls\n23: δc ← c\ntarget \n− c\nthis \n▷ Deficit count at bin\ni\n24: if δc > 0 then ▷ bin\ni \nsmaller than target\n25: if X < P\ni+1 \nthen ▷ X in bin\ni+1\n26: ρ\nnext \n= \n1+c\nper_bin\nP\ni +1\n−P\ni \n▷ Computes bin\ni+1\n’s density\n27: else\n28: ρ\nnext \n= \nc\nper_bin\nP\ni +1\n−P\ni \n▷ Computes bin\ni+1\n’s density\n29: P\ni \n← P\ni \n+ δc/ρ\nnext \n▷ Right-expand bin\ni\n30: c\nthis \n← ρ\nnext\n(P\ni+1 \n− P\ni \n) ▷ Saves bin\ni+1 \nnew count\n31: else\n32: ρ\nthis \n= \nc\nthis\nP\ni \n−P\ni −1 \n▷ Density at bin\ni\n33: P\ni \n← P\ni \n+ δc/ρ\nthis \n▷ Left-expand bin\ni+1\n34: c\nthis \n← c\nper_bin \n− δc ▷ Saves bin\ni+1 \nnew count\n35:\n36: if X > P\nn \nthen P\nn \n← X ▷ Right-expand bin\nn\n37: return P\nare processed on line 10. For each incoming event the percentile\nposition estimates P are updated taking into account the incoming\nvalue X and the current total count C.\nThe bulk of the work of the algorithm is done by the Update-\nPercentiles function. The algorithm works by maintaining the\ninvariant that the estimated number of counts in each bin is the\nsame for all bins. The new value X streaming in, will belong to\nsome bin\nj \nfor which the count will increase by 1. This breaks the\ninvariant. To restore the invariant, in UpdatePercentiles, we first\ncompute the new target count-per-bin, which is given by the mean\nnumber of events per bin after adding the new event. Then we\nloop over all bins from left to right. We expand, to the right, bins\nthat have a deficit count relative to the target value. This “eats” a\nportion of the next bin based on its density. When we encounter\nX ’s bin, the bins start having an excess count so we contract them\nPercentile position\nCount\nInvariant Restored\n1.\n2.\nStep\n(...)\n7.\n8.\n9.\n10.\nFigure 2: One call of UpdatePercentiles. 1) Adds event to\nbin 7 (c\ntarget\n: blue horizontal line ). 2) to 7) Right-expand Bin\nwalls on the left. 8) to 10): Left-expand other bins walls.\n(or, equivalently expand the next bin to the left), “shedding” away\na portion to the next bin, based on the current bin density. Fig. 2\nillustrates this procedure.\nThis algorithm is asymmetric, because the UpdatePercentiles\nfunction operates from left to right. This will create a directional\nbias in the estimate. A straightforward way to correct this bias is\nto also apply the update from right to left and average out the two:\nP ← \n1\n2 \n[\nUpdatePercentiles \n(\nP, X\nn+k \n, C\n) \n+ (1)\nReverse(UpdatePercentiles \n(\nReverse(−P), −X\nn+k \n, C\n)] \n,\nwhere Reverse returns the elements of a list in inverted order. A\ngreedier option that avoids duplicating the amount of work, is to\nchoose between a left-right or right-left pass on each new incoming\nevent either in an alternate way or with equal probability (to avoid\nreintroducing bias if the stream contains unfavourable correlations).\n3.3 Alarm Report\nAfter an alarm is triggered, a natural question for the user is “What\ncaused the alarm?”. Knowledge of the signal, alone, does not provide\nany information on the characteristics of the subset of events in\nthe T window that caused the alarm.\nIn this section, we introduce a strategy to guide the user in\nanalysing the alarm. An automatic report is generated by com-\nparing the events in the T and R windows through a measure of\ndissimilarity. The goal is to rank the T window events according to\nhow likely they are to explain the alarm. Even though we only use\nthe model score\n1 \nto compute the signal, other features of the events\nmay provide further useful information. Therefore we employ a\nstrategy that leverages the power of a ML model that uses both the\nfeatures and the model score. On each alarm, we create a new target\nbinary label with value 1 for events in T and value 0 for events in\nR and train an auxiliary ML model to learn how to separate events\n1\nThis can be seen as an aggregated view of the event focused on the target.\n\nAutomatic Model Monitoring for Data Streams KDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA\nFigure 3: Example validation plot for an alarm report.\nin the two windows. We use a Gradient Boosted Decision Trees\n(GBDT) model. This allows us to: 1) obtain an alarm score that can\nbe used to rank events in T (higher score ⇒ closer to the top), and\n2) directly obtain a measure of feature importance that deals well\nwith correlated features [ 33 ]. The latter provides a way of ranking\nthe features themselves. The hyperparameters of the GBDT model\nwere fixed to 50 trees with a maximum depth of 5, for all reports\nin all experiments. All other hyperparameters were kept with the\ndefault value of the scikit-learn implementation [28].\nTo test the robustness of the ranking provided by the GBDT\nmodel, we formulated an independent validation method. Since\nthe goal of the ranking is to push to the top the events that are\nresponsible for distorting the distribution of model scores in the\ntarget window, we expect that removing events from the top of the\nlist will suppress the signal. Therefore, we define a validation curve\n(see Figure 3) where each point is the value of the signal using R as\nreference, but T with the top k events removed. For comparison, we\ndefine a curve where, for each point, we randomly remove k events\nfrom T . The latter should not be able to lower the signal value if the\nalarm is in fact a false positive. In that case the blue curve (removal\nby drift score) should be similar or above the yellow one (random).\nIn summary, our alarm report contains the following:\n• Window information with start and end timestamps,\n• Truncated feature importance ranking list (e.g., top 10),\n• Validation curve to observe how well the ranking can lower\nthe signal,\n• \nA table of the top N (e.g., 100) events that explain the alarm.\nThis may contain some extra fields, that are informative,\nselected according to domain knowledge (e.g., emails, ad-\ndresses, card identifiers) and it contains the feature values\nused by the GBDT model (with columns ordered from left to\nright according to the feature importance ranking).\nRemoval of time correlated features. One potential issue of the ML\nmodel approach presented above is that some features may be cor-\nrelated with time or, similarly, the index that defines the order of\nthe events. Then, due to the sequential nature of the window con-\nfiguration (T comes after R), those features will allow the model to\nvery easily learn how to separate the T window events from the R\nwindows events using that time information (instead of learning\nthe differences in the distributions of features between the two win-\ndows). To address this problem we apply a pre-processing method\nFigure 4: MIC distributions for some source distributions.\nin a burn in period\n2 \nto detect features that correlate with time. Those\nfeatures are then excluded from the training of the GBDT model\nfor the alarm report.\nTo formulate the method, consider a time series:\n[(\nt\n0\n, X\n0\n), . . . , (t\ni \n, X\ni \n), . . . , (t\nN \n, X\nN \n)]\n \n(2)\nWe want to know whether there is a correlation between the or-\ndered set of timestamps (or index values) T = \n[\nt\n0\n, . . . , t\ni \n, . . . , t\nN \n]\nand the feature values X = \n[\nX\n0\n, . . . , X\ni \n, . . . , X\nN \n]\n. We use a measure\nof correlation that is sensitive to non-linear relations, the Maximal\nInformation Coefficient (MIC) [29 ], which is bounded in the interval\n[0, 1] (MIC = 1 corresponds to a perfect correlation). Given X and\nT and MIC(X, T) , 0 we also need a measure of significance (under\nthe null hypothesis H\n0 \nthat MIC(X, T) = 0). This is done by setting\nan α-level on the probability of observing the MIC value due to\nrandom chance. The probability distribution of MIC depends on\nthe distribution of values that generates the given series, as well as\non the size of the series. A direct way to estimate it numerically for\nspecific (distribution, size) pairs is with Monte Carlo (MC) simula-\ntion, by sampling (several times) a series of fixed size from a fixed\ndistribution, and by computing the MIC value for each sample. In\nFigure 4 we show some distributions with 200 MC samples each, for\ngaussian numerical features (left panel) and a categorical bernoulli\nfeature (right panel). This shows that, as expected, the variance is\nreduced as we increase the series size. We have also checked that\nthe MIC distribution only varies mildly with the source distribution\nused to generate the series.\nComputing the full MIC distribution with simulation, to deter-\nmine the p-value, is unnecessarily heavy. Instead we ask a simpler\nrelated question: “How many M samples of MIC do we need to ob-\nserve under H\n0\n, to have seen a value at least as large as MIC\nα \nwith\nprobability at least p?”. This is given by\nP \n(\nmax \n(\nMIC\n1\n, . . . , MIC\nM \n) ≥\n MIC\nα \n) \n= 1 − (1 − α)\nM \n≥ p\n⇒ M ≥ \nlog(1 − p)\nlog(1 − α) \n(3)\nFor simplicity we set p = 1 − α. If α = 0.05, this means that we\nneed M ≃ 60 to have a 95% probability to obtain one MIC value (or\nmore) in the 5% upper tail of the distribution.\nThis discussion assumes that we have access to the distribution\nof values that has generated the data. Since we work with streams\nof data with sizes above the thousands of instances we assume that\nthe series X itself provides a good estimate of its distribution of\n2\nWe define the burn in period as a set of initial events in the data stream that is used\nfor initialisation. This includes filling up windows (so that the signal can be computed)\nand the computation of time correlated features discussed in this section.\n\nKDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA Fábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro\nvalues. Thus, for simplicity, we generate the M ≃ 60 values for MIC\nby simply shuffling the series randomly M times and computing the\ncorresponding MIC values for each shuffle. The maximum observed\nvalue serves as a threshold for the feature X, which is removed if\nMIC(X) is larger. In the real datasets we analysed, for computational\ntime efficiency reasons, we used series of size 1000 covering the R\nplus T window, with points uniformly spaced in the burn in period.\n4 EXPERIMENTS\nIn this section, we provide results from experiments with real world\ndatasets. We used two datasets in the fraud detection domain with\nmore than 20 million online transactions (see summary statistics in\nTable 1). The various fields were collected in a production environ-\nment. Each dataset is comprised of several regions (3 for dataset\nA and 2 for dataset B) and for each region there is one model re-\nsponsible for scoring its transactions. Dataset A consists of credit\ncard payments from an on-demand mobility company. Dataset B\nconsists of online payments from an e-commerce merchant.\nTo validate the alarm reports, in principle, we would need la-\nbels for the alarms themselves. The prior existence of those labels\nrelies on records that users of the system may (or may not) have\nproduced for past anomalous events. This poses an extra difficulty\nto evaluate SAMM. Thus, our evaluation strategy was to actively\nask for user feedback, from domain experts, on 100 reports gener-\nated by the system. In Section 4.3, we will describe in detail the\nexperimental setup and the results we obtained. Before discussing\nthem, we present an example of the output obtained for the signal\nand threshold in Section 4.1, and we discuss the validation of alarm\nreports in Section 4.2.\n4.1 Signal and threshold\nIn Figure 5 we show an example of the signal and threshold com-\nputed for dataset A1. The signal was computed as described in\nSection 3.1 and is coloured in blue. The SPEAR algorithm threshold\nis coloured in red. For comparison purposes, we also show a light\nred line where the 95th percentile was computed (exactly) with\na landmark window\n3\n. SPEAR is, in fact, estimating well the 95th\npercentile computed with the landmark window, especially at later\ntimes (after accumulating enough examples). Finally, the dotted red\nline represents the 95th percentile computed with the full series. As\nexpected, both the SPEAR and the landmark window lines converge\nto the 95th percentile of the full series.\n3\nThis window contains all the events since the beginning of the dataset.\nDataset Features Days Transactions Transactions per day\nA1 213 212 1,046,482 4936\nA2 213 212 2,667,548 12,583\nA3 213 212 4,945,509 23,328\nB1 279 229 4,401,807 19,221\nB2 279 229 9,229,013 40,301\nTable 1: Summary statistics for each dataset-region.\nFigure 5: Signal and thresholds for datasets A1.\nFor the experiments with dataset A, we used the 95th percentile\nestimated with the SPEAR algorithm. For dataset B, we decreased\nthe threshold to the 85th percentile. The choice to lower the thresh-\nold for this use case was based on domain knowledge we were\nprovided with, hinting that more anomalous events were to be\nexpected in the models from dataset B. We present a discussion of\nthis choice and how it affected the results in Section 5.\n4.2 Validation of the reports\nSince collecting drift labels in production environments is an ex-\ntremely difficult task, we faced the need to perform independent\nvalidations of the drifts that were detected. One of such validation\nstrategies was already mentioned in Section 3.3 in Figure 3 for an\nalarm report. In contrast, Figure 6 shows an example of a validation\nplot for a valley. A valley, in this experiment, is a data point in S\nwhere the JSD is close to 0, for which we expect the transactions\nin R and T to be very similar. The alarm reports for valleys should\nbe confusing and difficult to interpret for the data scientists, since\nit corresponds to a time frame where the data stream should be\nhomogeneous. As expected, since the examples in R and those in T\nare similar, removing the top ranked examples from T does not lead\nto a decrease in the JSD value. This is one of the most important\nmechanisms that we have found to validate if a given alarm is a\ntrue positive or a false positive.\nAnother source of validation that can be used, consists of per-\nforming an evaluation with k-fold cross validation, by re-fitting\nGBDT models, with the same hyperparameters as before, on each\nfold. This allows us to estimate the ROC curve. We run this pro-\ncedure for each alarm and compute the average AUC. Although\nthe examples in our use case are time ordered, for this particular\npurpose, k-fold cross validation is still a suitable technique, since\nwe are not interested in an unbiased estimate of performance for a\nFigure 6: Example validation plot for a valley.\n\nAutomatic Model Monitoring for Data Streams KDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA\nFigure 7: Examples of ROC curves generated with 5-fold\ncross validation for an alarm (left) and a valley (right).\nmodel that is able to generalize into the future. Furthermore, ob-\nserve that we have previously removed the time correlated features,\nso time dependencies should be mild. Figure 7 shows examples of\nROC curves computed from a 5-fold cross validation procedure.\nTypically, for alarms, the ROC curve behaves similar to the one in\nthe left panel, where the model is able to learn how to distinguish\nthe examples in R from the ones in T . For valleys, the performance\nis usually very close to random, therefore the ROC curve is similar\nto the random line. This indicates that, as expected for valleys, the\nmodel is not able to learn any pattern to separate the examples.\n4.3 Experimental Results\nWe designed an experiment where we had two data scientists avail-\nable for each dataset-region. We generated 100 alarm reports (20\nper dataset-regions). Each data scientist received a list of 10 alarm\nreports to analyse, with the structure defined as in Section 3.3. This\nmeans that each alarm report contained the top 100 transactions\nto be observed. For each alarm, the data scientists were asked to\nscore, from 1 to 5, the following questions:\n• Q1. Please provide a score from 1 to 5 reflecting how confi-\ndent you are that this report corresponds to a true alarm (1:\ntotally sure it is false, 5: totally sure it is true)\n• Q2. Please provide a score from 1 to 5 reflecting how clearly\nyou can see a pattern in the transactions of the report pro-\nvided (1: no pattern at all, 5: very clear pattern)\n• Q3. After looking at the validation plot, please provide a\nnew answer to Q1, regarding this new information\n4\n.\nTo evaluate the outcome of these experiments, we mixed the\nreports based on alarms with reports based on valleys. The distribu-\ntion of alarms and valleys was set randomly by a Bernoulli variable\nwith p = 0.5 (equal probability to select an alarm or a valley). This\nselected 52 reports based on alarms and 48 reports based on valleys.\nOur hypothesis was that the reports based on alarms would have\nhigher scores in the three questions asked to each data scientist.\nThe statistical analysis of the results was done using the Mann-\nWhitney U test with the Holm-Bonferroni correction for multiple\ncomparisons [15 , 23]. In all tests, the α-level for the null hypothesis,\nthat there is no difference between alarms and valleys, was 0.05.\nThe distribution of ratings for the three questions asked in the\nexperiments is shown in Figure 8. The distributions for alarms are\nrepresented in blue bars whereas for valleys they are in orange. The\n4\nThe validation plot was hidden from the user for Q1 and Q2.\nQ1 Q2 Q3\nAggregated 0.037 0.220 5.6e-5\nDataset A 0.037 0.037 0.003\nDataset B 0.370 0.822 0.006\nTable 2: P-values for the various Mann-Whitney U tests\n(with Holm-Bonferroni correction for comparisons by\ndataset). For all tests, the α-level was set at 0.05. Values in\nbold represent tests where the p-value was smaller than α.\noutput of the statistical tests, to determine if ratings for alarms are\nsignificantly larger than for valleys, is summarized in Table 2. For Q1\nand Q3, there is a clear separation between alarms and valleys: the\nformer tend to have higher ratings in both questions. The separation\nis even more notorious in Q3. Regarding statistical significance, for\nthe aggregated view (with all the reports from datasets A and B)\nboth Q1 and Q3 present a p-value smaller than the defined α-level.\nThis shows that the difference observed in Figure 8 is statistical\nsignificant. For Q3, this still holds in the breakdown by dataset.\nHowever, for Q1, the p-value for dataset B is 0.370, which is above\nthe α-level. For that particular dataset, the results were, overall,\nnot so good, possibly indicating that many of the reports based\non alarms could in fact be false positives. We discuss this in more\ndetail in Section 5.\nRegarding Q2, the aggregated view and the breakdown for dataset\nB show a p-value above α. This indicates that the differences visible\nin the Q2 plot of Figure 8 are not statistically significant. However,\nthe p-value for dataset A is 0.037, below the α-level. One of the\npossible reasons for this result in the aggregation, is that the ques-\ntion itself is more subjective. In this question, the evaluators were\nasked how clearly could they see the pattern in the transactions\ndisplayed in the report. This is intrinsically more difficult because\nit requires a deeper investigation. Moreover, feedback collected\nfrom the participants afterwards, showed that some of them could\nnot spend additional time analysing the reports. This may have\nresulted in outcomes where the participants were not able to detect\na pattern in the reports even if they rated the alarm highly in Q1.\nThus, the subjectiveness of the question demands for more time\nfrom the participants to properly answer it. We plan to take this into\nconsideration in future work and guarantee that all participants\nallocate the same amount of time to analyse the reports.\n5 DISCUSSION\nThe results presented in Section 4.3 indicate that, according to user\nfeedback, the alarm reports contain more true positive alarms than\nfalse positive alarms, relative to periods of low signal (Q1). Further-\nmore Q3 also shows that the validation plot adds extra confidence\nto the user. For Q2, the alarm reports were not, overall, significantly\nuseful in helping to identify clearly the pattern responsible for the\nalarm.\nHowever, focusing on the breakdowns per dataset (suitably cor-\nrected for multiple testing), we have seen that, in fact, the p-values\nare consistently much worse for dataset B and that, in fact, statistical\nsignificance is attained for all questions for dataset A.\n\nKDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA Fábio Pinto, Marco O. P. Sampaio, and Pedro Bizarro\n1 2 3 4 5\nRating\n0.0\n0.1\n0.2\n0.3\nRelative Frequency\nQ1: alarm confidence\nalarms\nvalleys\n1 2 3 4 5\nRating\n0.0\n0.1\n0.2\n0.3\nRelative Frequency\nQ2: pattern clarity\n1 2 3 4 5\nRating\n0.0\n0.1\n0.2\n0.3\nRelative Frequency\nQ3: alarm confidence w/ validation plot\nFigure 8: Bar plots with score distribution for alarms and valleys collected from the experiments.\nWe now discuss a possible reason for the results of dataset B. Fig-\nure 9 shows the signal and thresholds for dataset B2 as an example.\nIn that plot we can see a very high peak that reaches above the 0.01\nshannon units mark. This was due to a new model deployment that,\nas expected, led to a transition to a new regime for the distribution\nof model scores. The dotted green line represents the 95th percentile\nbefore this event (using all data points until the deployment date)\nand after this event (using all data points after the deployment\ndate). We can observe that there is a clear regime change in the\nseries. In the experimental setup for dataset B, we made the choice\nof lowering the threshold (in fact this corresponds, approximately,\nto the 95th percentile after the new model deployment). We suspect\nthat this choice increased the amount of false positive alarms in\nthe pre-deployment period, thus contributing to more confusing\nalarm reports (see red line for SPEAR in Figure 9, where the signal\noscillates much more above the threshold).\nSince new model deployments are quite common events in Data\nScience projects, this shows the importance of using a method that\ncan deal with such abrupt regime changes, to be able to adapt the\nthreshold accordingly. Ideally, such method would also be parameter\nfree (or almost parameter free). We plan to address this issue in the\nfuture with an adaptive version of the SPEAR algorithm.\nRegarding the evaluation strategy for our system, we chose to\nrely on direct user feedback on generated alarm reports. This pro-\nvides valuable information, because it tries to simulate some aspects\nof the interaction a user would have with the system in a real pro-\nduction environment. In Section 4, we have also mentioned that\nanother possible strategy would be to try to collect past records\nof abrupt events that users have kept in production. Though this\nis more difficult to collect systematically, it is extremely valuable\ninformation, because users typically have time to cross check those\nFigure 9: Signal and threshold for dataset B2.\nevents over days or weeks of work. Furthermore, these records will\ntend to contain the most important alarms (i.e., those that have\na larger business impact), which means that the labelling will be\nmore solid. We plan to aggregate available records in a future study\nto enrich our evaluation strategy.\n6 CONCLUSIONS\nThis paper proposes SAMM, an autoML system for automatic mon-\nitoring of ML models for data streams. The two combined charac-\nteristics that distinguish SAMM from the state-of-the-art are that\nit detects concept drift in an unsupervised way and it suggests an\nexplanation for the drift in the form of an alarm report. Although\nthere are some methods already proposed in the literature for un-\nsupervised concept drift detection, to the best of our knowledge,\nour system is the first proposal attempting to explain why a drift\noccurred.\nWe evaluated SAMM in five real world fraud detection datasets,\nfor which we generated 100 alarms reports and resorted to human\nfeedback to score three questions: 1) how confident the user was\nthat the report corresponded to a true alarm 2) how clearly the user\nwas able to see a pattern in the report, and 3) if the user wanted to\nchange the answer to the first question after seeing a validation plot.\nThe human feedback was provided by data scientists that worked\ndaily with the datasets. Our results showed higher scores for alarm\nreports for questions 1 and 3 (relative to reports for valleys). For both\nquestions, the differences were statistically significant. Regarding\nquestion 2, the differences were statistically significant only for one\nof the datasets.\nIn future work, we plan to extend our method to be able to\nadapt the threshold to regime changes. One possibility that we are\ninvestigating is the use of forgetting factors, a technique that is\noften used in data streams [10]. Another interesting topic would be\nto investigate how data streams with high seasonality would affect\nthe signal that we compute, which was not an issue for the datasets\nused in our experiments. Such effect is to be expected in some\ndatasets, so we plan to address it in the future. Finally, we also plan\nto study the effect of the contents presented in the alarm reports\nfrom an UX perspective. Information overload can be a problem\nand potentially impact the usefulness of such reports. Ideally, an\nalarm report would only present the strictly necessary information\nfor the user be able to quickly understand the drift.\n\nAutomatic Model Monitoring for Data Streams KDD-ADF-2019, August 5, 2019, Anchorage, Alaska, USA\nREFERENCES\n[1] Theodore W Anderson and Donald A Darling. 1954. A test of goodness of fit.\nJournal of the American statistical association 49, 268 (1954), 765–769.\n[2] Albert Bifet and Ricard Gavalda. 2007. Learning from time-changing data with\nadaptive windowing. In Proceedings of the 2007 SIAM international conference on\ndata mining. SIAM, 443–448.\n[3] \nFei Chen, Diane Lambert, and José C. Pinheiro. 2000. Incremental Quantile\nEstimation for Massive Tracking. In Proceedings of the Sixth ACM SIGKDD Inter-\nnational Conference on Knowledge Discovery and Data Mining (KDD ’00). ACM,\nNew York, NY, USA, 516–522. https://doi.org/10.1145/347090.347195\n[4] Corinna Cortes, Xavier Gonzalvo, Vitaly Kuznetsov, Mehryar Mohri, and Scott\nYang. 2017. Adanet: Adaptive structural learning of artificial neural networks.\nIn Proceedings of the 34th International Conference on Machine Learning, vol. 70.\nJMLR, 874–883.\n[5] Denis Moreira dos Reis, Peter Flach, Stan Matwin, and Gustavo Batista. 2016. Fast\nunsupervised online drift detection using incremental kolmogorov-smirnov test.\nIn Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge\nDiscovery and Data Mining. ACM, 1545–1554.\n[6] Ted Dunning and Otmar Ertl. 2019. Computing Extremely Accurate Quan-\ntiles Using t-Digests. arXiv e-prints, Article arXiv:1902.04023 (Feb 2019),\narXiv:1902.04023 pages. arXiv:stat.CO/1902.04023\n[7] \nMatthias Feurer, Aaron Klein, Katharina Eggensperger, Jost Springenberg, Manuel\nBlum, and Frank Hutter. 2015. Efficient and robust automated machine learning.\nIn Advances in neural information processing systems. 2962–2970.\n[8] \nJoao Gama. 2010. Knowledge discovery from data streams. Chapman and\nHall/CRC.\n[9] \nJoao Gama, Pedro Medas, Gladys Castillo, and Pedro Rodrigues. 2004. Learning\nwith drift detection. In Brazilian symposium on artificial intelligence. Springer,\n286–295.\n[10] \nJoão Gama, Raquel Sebastião, and Pedro Pereira Rodrigues. 2013. On evaluating\nstream learning algorithms. Machine learning 90, 3 (2013), 317–346.\n[11] João Gama, Indr \n˙\ne Žliobait \n˙\ne, Albert Bifet, Mykola Pechenizkiy, and Abdelhamid\nBouchachia. 2014. A survey on concept drift adaptation. ACM computing surveys\n(CSUR) 46, 4 (2014), 44.\n[12] \nSindhu Ghanta, Sriram Subramanian, Lior Khermosh, Swaminathan Sundarara-\nman, Harshil Shah, Yakov Goldberg, Drew Roselli, and Nisha Talagala. 2019. ML\nHealth: Fitness Tracking for Production Models. arXiv preprint arXiv:1902.02808\n(2019).\n[13] Daniel Golovin, Benjamin Solnik, Subhodeep Moitra, Greg Kochanski, John\nKarro, and D Sculley. 2017. Google vizier: A service for black-box optimization.\nIn Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge\nDiscovery and Data Mining. ACM, 1487–1495.\n[14] Hugo Lewi Hammer, Anis Yazidi, and Håvard Rue. 2019. A new quantile tracking\nalgorithm using a generalized exponentially weighted average of observations.\nApplied Intelligence 49, 4 (01 Apr 2019), 1406–1420. https://doi.org/10.1007/\ns10489-018-1335-7\n[15] \nSture Holm. 1979. A simple sequentially rejective multiple test procedure. Scan-\ndinavian journal of statistics (1979), 65–70.\n[16] Ambika Kaul, Saket Maheshwary, and Vikram Pudi. 2017. AutolearnâĂŤAuto-\nmated feature generation and selection. In 2017 IEEE International Conference on\nData Mining (ICDM). IEEE, 217–226.\n[17] Lars Kotthoff, Chris Thornton, Holger H Hoos, Frank Hutter, and Kevin Leyton-\nBrown. 2017. Auto-WEKA 2.0: Automatic model selection and hyperparameter\noptimization in WEKA. The Journal of Machine Learning Research 18, 1 (2017),\n826–830.\n[18] Nicolaas H Kuiper. 1960. Tests concerning random points on a circle. In Nederl.\nAkad. Wetensch. Proc. Ser. A, Vol. 63. 38–47.\n[19] \nJason Liang, Elliot Meyerson, Babak Hodjat, Dan Fink, Karl Mutch, and Risto\nMiikkulainen. 2019. Evolutionary Neural AutoML for Deep Learning. arXiv\npreprint arXiv:1902.06827 (2019).\n[20] \nJ. Lin. 1991. Divergence measures based on the Shannon entropy. IEEE Transac-\ntions on Information Theory 37, 1 (Jan 1991), 145–151. https://doi.org/10.1109/18.\n61115\n[21] Ge Luo, Lu Wang, Ke Yi, and Graham Cormode. 2016. Quantiles over data streams:\nexperimental comparisons, new analyses, and further improvements. The VLDB\nJournal 25, 4 (01 Aug 2016), 449–472. https://doi.org/10.1007/s00778-016-0424-7\n[22] Jorge Madrid, Hugo Jair Escalante, Eduardo Morales, Wei-Wei Tu, Yang Yu,\nLisheng Sun-Hosoya, Isabelle Guyon, and Michèle Sebag. 2018. Towards AutoML\nin the presence of Drift: first results. In Workshop AutoML 2018@ ICML/IJCAI-\nECAI.\n[23] HB Mann and DR Whitney. 1947. On a test of whether one of two random\nvariables is stochastically larger than the other. Annals of Mathematical Statistics\n(1947).\n[24] Frank J Massey Jr. 1951. The Kolmogorov-Smirnov test for goodness of fit. Journal\nof the American statistical Association 46, 253 (1951), 68–78.\n[25] Hector Mendoza, Aaron Klein, Matthias Feurer, Jost Tobias Springenberg, and\nFrank Hutter. 2016. Towards automatically-tuned neural networks. In Workshop\non Automatic Machine Learning. 58–65.\n[26] Fatemeh Nargesian, Horst Samulowitz, Udayan Khurana, Elias B Khalil, and\nDeepak S Turaga. 2017. Learning Feature Engineering for Classification.. In\nIJCAI. 2529–2535.\n[27] Valeriy Naumov and Olli Martikainen. 2007. Exponentially Weighted Simultane-\nous Estimation of Several Quantiles.\n[28] \nFabian Pedregosa, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel,\nBertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron Weiss,\nVincent Dubourg, et al. 2011. Scikit-learn: Machine learning in Python. Journal\nof machine learning research 12, Oct (2011), 2825–2830.\n[29] David N. Reshef, Yakir A. Reshef, Hilary K. Finucane, Sharon R. Grossman,\nGilean McVean, Peter J. Turnbaugh, Eric S. Lander, Michael Mitzenmacher,\nand Pardis C. Sabeti. 2011. Detecting Novel Associations in Large Data Sets.\nScience 334, 6062 (2011), 1518–1524. https://doi.org/10.1126/science.1205438\narXiv:https://science.sciencemag.org/content/334/6062/1518.full.pdf\n[30] Tegjyot Singh Sethi and Mehmed Kantardzic. 2017. On the reliable detection of\nconcept drift from streaming unlabeled data. Expert Systems with Applications 82\n(2017), 77–99.\n[31] Charles Sutton, Timothy Hobson, James Geddes, and Rich Caruana. 2018. Data\nDiff: Interpretable, Executable Summaries of Changes in Distributions for Data\nWrangling. In Proceedings of the 24th ACM SIGKDD International Conference on\nKnowledge Discovery & Data Mining. ACM, 2279–2288.\n[32] L. Tierney. 1983. A Space-Efficient Recursive Procedure for Estimating a Quantile\nof an Unknown Distribution. SIAM J. Sci. Statist. Comput. 4, 4 (1983), 706–711.\nhttps://doi.org/10.1137/0904048 arXiv:https://doi.org/10.1137/0904048\n[33] \nZhixiang Xu, Gao Huang, Kilian Q Weinberger, and Alice X Zheng. 2014. Gradient\nboosted feature selection. In Proceedings of the 20th ACM SIGKDD international\nconference on Knowledge discovery and data mining. ACM, 522–531.\n[34] Shujian Yu, Xiaoyang Wang, and Jose C Principe. 2018. Request-and-reverify:\nhierarchical hypothesis testing for concept drift detection with expensive labels.\narXiv preprint arXiv:1806.10131 (2018).\n[35] Indre Žliobaite. 2010. Change with delayed labeling: When is it detectable?. In\n2010 IEEE International Conference on Data Mining Workshops. IEEE, 843–850.",
+          "version": "5.3.31"
+        },
+        "binary": {},
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "numpages": 1,
+          "numrender": 1,
+          "info": {
+            "PDFFormatVersion": "1.4",
+            "Language": "en_GB",
+            "EncryptFilterName": null,
+            "IsLinearized": false,
+            "IsAcroFormPresent": false,
+            "IsXFAPresent": false,
+            "IsCollectionPresent": false,
+            "IsSignaturesPresent": false,
+            "Title": "Senior ML Engineer (Portugal) - revised JD",
+            "Producer": "Skia/PDF m144 Google Docs Renderer"
+          },
+          "text": "Senior Machine Learning Engineer\nThe Role\nOur client, a global game-tech company, strives to harness the power of modern AI algorithms to continuously\nimprove our product and business. Their AI department, consisting of product, platform, and research teams, is\nat the core of that mission. They develop AI products for various applications, ranging from fraud detection to\npersonalized gaming recommendations and from AI-powered co-pilots to CRM optimizations.\nOur client structures their teams to be self-driven, autonomous, and cross-functional. As a Senior Machine\nLearning Engineer, you will not only deliver robust and scalable machine learning pipelines but also lead\nprojects, mentor fellow engineers, and drive the technical vision for operationalizing ML models. You will be\ninstrumental in elevating the team's capabilities and ensuring the successful delivery of complex AI solutions.\nWhat You Will Do\n● Lead the design and implementation of robust, scalable, and high-performance ML pipelines in a\ndistributed environment.\n● Architect and develop scalable inference pipelines and real-time model serving solutions.\n● Mentor and guide other engineers on the team, fostering best practices in code quality, system design,\nand project execution.\n● Drive project planning, create roadmaps, and take ownership of project outcomes, including\npost-launch reflection and identifying lessons learned.\n● Collaborate closely with Data Scientists, Data Engineers, and Product Owners to translate business\nproblems into production-ready machine learning systems.\n● Implement and champion comprehensive model diagnostics, including automated evaluation, drift\nmonitoring, and alerting flows.\n● Automate model deployment using modern CI/CD and MLOps principles.\n● Proactively navigate technical conflicts and guide the team toward effective solutions.\nWhat You’ll Bring\n● Extensive experience in software development using Python in a large-scale, high-performance\nproduction environment.\n● Proven experience leading the design of complex, scalable ML software systems and influencing\nbroader technical outcomes.\n● Significant hands-on experience with cloud environments (Microsoft Azure or AWS) and\ncontainerization/orchestration tools (e.g., Kubernetes, Docker).\n● Demonstrable expertise in real-time data processing and streaming technologies (e.g., Kafka, Spark\nStreaming).\n● Strong practical knowledge of the ML project lifecycle and MLOps tools (e.g., MLflow, Kubeflow).\n● A track record of mentoring and coaching team members, providing constructive feedback, and\ncontributing to their growth.\n● Excellent problem-solving and communication skills, with an ability to articulate complex technical\nconcepts to diverse audiences.\n● Proficiency in software engineering best practices, including robust unit testing, code refactoring, and\nperformance optimization.\nLogistics\n● Full-time employment contract\n● Hybrid from Lisbon (1 day/week in the office) or fully remote in other parts of Portugal\n● Up to 22% bonus, company card with monthly allowance, unlimited access to Udemy, private\nhealthcare, and working equipment\n● Candidates must be based in Portugal",
+          "version": "5.3.31"
+        },
+        "binary": {},
+        "pairedItem": {
+          "item": 1
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Simple Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "28024a9b-c56a-4d7b-be7e-240d99ddd180",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c88f1771f961a58c4aa7cfaf05a0e7de93aeb2f11b1037549ec8ee48820f8c75"
+  },
+  "id": "dihxYxAk9InrOn7f",
+  "tags": []
+}
