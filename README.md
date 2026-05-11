@@ -4,7 +4,7 @@
 ## Overview
 This repository contains a series of notebooks that progressively build and evaluate LLM-powered chatbot, rag and agents systems. The focus is on experimentation with safeguards, observability, and evaluation frameworks.
 
-In `/GenAI_101`:
+In `/steps`:
 
 #### GenAI Basics
 
