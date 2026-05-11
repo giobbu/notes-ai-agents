@@ -15,6 +15,6 @@ list chat/embedding models
 ollama list
 ```
 
-drag rag template from `/template` into canvas and start chatting.
+open `http://localhost:5678//home/workflows` drag rag template from `/template` into canvas and start chatting.
 
 Make sure ollama has the right models in use.
