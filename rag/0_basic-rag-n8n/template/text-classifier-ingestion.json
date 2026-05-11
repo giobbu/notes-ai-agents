@@ -8,10 +8,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        400,
-        704
+        784,
+        784
       ],
-      "id": "1d095832-776a-4429-97e7-d7c2c56320cf",
+      "id": "c06be74e-5197-4153-a1e0-d9f5be0806cc",
       "name": "When chat message received",
       "webhookId": "e88a1fb4-ee33-489b-b322-369d9156189d"
     },
@@ -24,10 +24,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        656,
-        704
+        1040,
+        784
       ],
-      "id": "0e311173-1ebf-463e-8c7a-74b2a92f0945",
+      "id": "d85c0e46-1d1a-44d5-867b-d68f330dbd43",
       "name": "AI Agent"
     },
     {
@@ -40,10 +40,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        416,
-        944
+        800,
+        1024
       ],
-      "id": "f21eb72c-626f-4c5d-b180-a3a3e9732488",
+      "id": "66c4c721-3da1-4d60-b072-15e18736962d",
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
@@ -60,10 +60,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        -208,
-        -256
+        176,
+        -176
       ],
-      "id": "94d41472-03ee-40b0-9831-e611b5f2af30",
+      "id": "0b4b8267-2c68-492f-b46e-ae4b346a9b59",
       "name": "Read/Write Files from Disk"
     },
     {
@@ -74,10 +74,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        112,
-        -256
+        496,
+        -176
       ],
-      "id": "f316db55-8b0c-4c64-84f5-175b2656f8f7",
+      "id": "4124a099-5343-4779-9366-6cb5c79ca98d",
       "name": "Extract from File"
     },
     {
@@ -93,10 +93,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        1072,
-        896
+        1456,
+        976
       ],
-      "id": "a6b3b025-92f0-4a51-b6ab-ad4b6cb897ea",
+      "id": "021121f9-1de2-435b-a05d-c00b2017bbe0",
       "name": "Simple Vector Store"
     },
     {
@@ -106,10 +106,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        1120,
-        1120
+        1504,
+        1200
       ],
-      "id": "15b75958-4cd8-4183-97e3-c55bfad0cbe6",
+      "id": "6fa94e00-59dd-4a94-89c0-04326716d24d",
       "name": "Embeddings Ollama",
       "credentials": {
         "ollamaApi": {
@@ -133,10 +133,10 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "typeVersion": 1.3,
       "position": [
-        1280,
-        -256
+        1664,
+        -176
       ],
-      "id": "3711d762-024a-4890-98d2-0c912122029d",
+      "id": "d40414ad-32c6-42a5-9b2c-2f3cbc3b7ba0",
       "name": "Simple Vector Store1"
     },
     {
@@ -158,10 +158,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        1360,
-        -48
+        1824,
+        32
       ],
-      "id": "82972f3f-2755-4040-974a-0e9d7b24dbe9",
+      "id": "b89b6272-54cb-4fd0-8b86-05a0eb92fb45",
       "name": "Default Data Loader"
     },
     {
@@ -172,10 +172,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        1472,
-        128
+        1936,
+        176
       ],
-      "id": "b2b0eadc-795d-4d06-97c9-5b09f752b35b",
+      "id": "bfa68819-c06f-4b58-98ea-ffa90ea6abc3",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -185,10 +185,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        1280,
-        112
+        1664,
+        48
       ],
-      "id": "3de9f33c-1dd1-48d8-baed-b148912fb40d",
+      "id": "713cb122-b3d5-42e6-98a8-a3662d5a8ff5",
       "name": "Embeddings Ollama1",
       "credentials": {
         "ollamaApi": {
@@ -202,10 +202,10 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        672,
-        912
+        1056,
+        992
       ],
-      "id": "e2f52ba2-3eea-49bc-88e1-cc7724f27166",
+      "id": "24b97ac6-8bbe-4c5b-a167-3bd5271bb4e1",
       "name": "Simple Memory"
     },
     {
@@ -234,10 +234,10 @@
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1.1,
       "position": [
-        368,
-        176
+        752,
+        256
       ],
-      "id": "116edcbe-395e-41b8-9613-444b9c7851cb",
+      "id": "6d7992d2-9465-45d4-924a-299a5fcdb4a5",
       "name": "Text Classifier"
     },
     {
@@ -248,10 +248,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmOllama",
       "typeVersion": 1,
       "position": [
-        336,
-        416
+        720,
+        496
       ],
-      "id": "32fd87b5-b77f-4ed5-b525-07f29d19e5a7",
+      "id": "a0935468-f7ea-4138-b50f-6d1186a125d4",
       "name": "Ollama Model",
       "credentials": {
         "ollamaApi": {
@@ -267,10 +267,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1024,
-        176
+        1408,
+        256
       ],
-      "id": "10306b9e-bb06-434a-9609-b400fb960e1c",
+      "id": "dee19f46-1ff8-40e3-ad35-04e63fa1bd73",
       "name": "Merge",
       "alwaysOutputData": false
     },
@@ -280,8 +280,14 @@
           "assignments": [
             {
               "id": "95d9636e-9a48-4a17-b5d1-8db460646d19",
-              "name": "scientific article",
-              "value": "scientific category",
+              "name": "category",
+              "value": "scientific",
+              "type": "string"
+            },
+            {
+              "id": "cfcce8e6-5145-41e2-8d3a-9e1359630351",
+              "name": "title",
+              "value": "={{ $json.info.Title }}",
               "type": "string"
             }
           ]
@@ -291,10 +297,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        752,
-        0
+        1136,
+        80
       ],
-      "id": "55dcdd2d-70c9-4fff-94f7-6565465bf4ba",
+      "id": "fe0f4470-a83a-450a-ab11-9e953bfe7616",
       "name": "Edit Fields"
     },
     {
@@ -303,8 +309,14 @@
           "assignments": [
             {
               "id": "46a5bfaf-e6bb-4b85-b511-0b0a175453d4",
-              "name": "unknow",
-              "value": "unknown category",
+              "name": "category",
+              "value": "unknown",
+              "type": "string"
+            },
+            {
+              "id": "b07038ce-32d2-48db-ba6e-a8660d47a20e",
+              "name": "title",
+              "value": "={{ $('Extract from File').item.json.info.Title }}",
               "type": "string"
             }
           ]
@@ -314,10 +326,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        752,
-        192
+        1136,
+        272
       ],
-      "id": "d66df622-19c8-4fda-a98b-b1d3c88a9d3f",
+      "id": "c043d5ad-023b-4f98-a19a-8af00c74482b",
       "name": "Edit Fields1"
     },
     {
@@ -326,8 +338,14 @@
           "assignments": [
             {
               "id": "51e95865-7891-4694-ab6d-584b977d4adc",
-              "name": "job description",
-              "value": "job category",
+              "name": "category",
+              "value": "job-post",
+              "type": "string"
+            },
+            {
+              "id": "e58a918f-453e-4197-a470-cca83ad52330",
+              "name": "title",
+              "value": "={{ $json.info.Title }}",
               "type": "string"
             }
           ]
@@ -337,24 +355,46 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        752,
-        352
+        1136,
+        432
       ],
-      "id": "4114b228-eef7-4b84-aa93-bd6316ab65e1",
+      "id": "39dbc3b4-f5a8-46d5-98c1-e76a0fd721c7",
       "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {
+          "format": true,
+          "fileName": "classification"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1728,
+        480
+      ],
+      "id": "0c5f1b2d-c1f1-4e17-8e34-543931230309",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/home/node/.n8n-files/classification.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        480
+      ],
+      "id": "6a1d0cab-a8d3-472b-9777-86ffb578d226",
+      "name": "Read/Write Files from Disk1"
     }
   ],
   "pinData": {
-    "Edit Fields": [
-      {
-        "json": {
-          "scientific article": "scientific category"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
     "Extract from File": [
       {
         "json": {
@@ -577,6 +617,11 @@
             "node": "Simple Vector Store1",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -613,6 +658,17 @@
           }
         ]
       ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -620,11 +676,10 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "28024a9b-c56a-4d7b-be7e-240d99ddd180",
+  "versionId": "1dae1329-78f6-4021-a505-14b13b8c5fa9",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "c88f1771f961a58c4aa7cfaf05a0e7de93aeb2f11b1037549ec8ee48820f8c75"
   },
-  "id": "dihxYxAk9InrOn7f",
+  "id": "GzMjqEcAxzlM46lA",
   "tags": []
 }
