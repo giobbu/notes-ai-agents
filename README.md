@@ -38,5 +38,10 @@ In `/checklists`:
 * [1-metrics-to-evaluate-agents](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/1_metrics_eval_agents.ipynb)
 * [2-safety-measures](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/2_safety_measures.ipynb)
 
+In `/rag`:
+
+* [0-basic-rag-n8n](https://github.com/giobbu/notes-ai-agents/tree/main/rag/0_basic-rag-n8n)
+* [1-kg-rag](https://github.com/giobbu/notes-ai-agents/tree/main/rag/1_kg_rag)
+
 ## License
 This project is under the MIT license.
