@@ -43,5 +43,8 @@ In `/rag`:
 * [0-basic-rag-n8n](https://github.com/giobbu/notes-ai-agents/tree/main/rag/0_basic-rag-n8n)
 * [1-kg-rag](https://github.com/giobbu/notes-ai-agents/tree/main/rag/1_kg_rag)
 
+**Stack: n8n, ollama, docker, neo4j**
+
+
 ## License
 This project is under the MIT license.
