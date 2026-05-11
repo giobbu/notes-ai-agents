@@ -1,6 +1,13 @@
 ## RAG worflow
 
+### basic rag architecture
+
 ![Image Alt Text](img/rag-workflow.png)
+
+### text classifier for document ingestion
+
+![Image Alt Text](img/text-classifier.png)
+
 
 ## Setup n8n and ollama (with GPU) in docker
 
