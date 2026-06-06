@@ -16,6 +16,7 @@ In `/steps`:
 * [7-chatbot-evaluate](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/7_chatbot_evaluation.ipynb)
 * [8-llm-compare-experiments](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/8_compare_models.ipynb)
 * [9-streamlit-mlflow-fastapi-ollama](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/9_streamlit_fastapi_mlflow.ipynb)
+* [10-token-budgte-per-session](https://github.com/giobbu/notes-ai-agents/blob/main/steps/10_token_budget.ipynb)
 * [11-semantic-caching](https://github.com/giobbu/notes-ai-agents/blob/main/steps/11_semantic_cache.ipynb)
 * [12-semantic-routing](https://github.com/giobbu/notes-ai-agents/blob/main/steps/12_semantic_route.ipynb)
 
