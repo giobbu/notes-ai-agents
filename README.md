@@ -6,18 +6,11 @@ This repository contains a series of notebooks that progressively build and eval
 
 In `/steps`:
 
-#### GenAI Basics
-
 * [0-basic-agent](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/0_basic_agent.ipynb),
 * [1-structured-output](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/1_agent_confidence.ipynb), 
 * [2-ollama-websearch](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/2_ollama_websearch.ipynb), 
 * [3-small-chat-llms](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/3_small_chat_on_sustainability.ipynb), 
 * [4-gpt-oss-safeguard](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/4_ollama_safeguard.ipynb), 
-
-**Stack: ollama, websearch-tool, gpt-oss, gpt-oss-safeguard.**
-
-#### LLMOps Starters
-
 * [5-basic-llm-tracing](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/5_llm_mlflow_tracing.ipynb)
 * [6-chatbot-tracing](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/6_chabot_mlflow_tracing.ipynb)
 * [7-chatbot-evaluate](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/7_chatbot_evaluation.ipynb)
@@ -25,10 +18,6 @@ In `/steps`:
 * [9-streamlit-mlflow-fastapi-ollama](https://github.com/giobbu/notes-ai-agents/blob/main/GenAI_101/9_streamlit_fastapi_mlflow.ipynb)
 * [11-semantic-caching](https://github.com/giobbu/notes-ai-agents/blob/main/steps/11_semantic_cache.ipynb)
 * [12-semantic-routing](https://github.com/giobbu/notes-ai-agents/blob/main/steps/12_semantic_route.ipynb)
-
-
-
-**Stack: streamlit, fastapi, mlflow tracing component, mlflow evaluate component, ollama, gpt-oss.**
 
 In `/agent`:
 
@@ -40,13 +29,12 @@ In `/checklists`:
 * [0-tool-design](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/0_tool_design.ipynb)
 * [1-metrics-to-evaluate-agents](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/1_metrics_eval_agents.ipynb)
 * [2-safety-measures](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/2_safety_measures.ipynb)
+* [3-deployment](https://github.com/giobbu/notes-ai-agents/blob/main/checklists/3_deployment.ipynb)
 
 In `/rag`:
 
 * [0-basic-rag-n8n](https://github.com/giobbu/notes-ai-agents/tree/main/rag/0_basic-rag-n8n)
-* [1-kg-rag](https://github.com/giobbu/notes-ai-agents/tree/main/rag/1_kg_rag)
-
-**Stack: n8n, ollama, docker, neo4j**
+* [1-neo4j-rag](https://github.com/giobbu/notes-ai-agents/tree/main/rag/1_kg_rag)
 
 
 ## License
