@@ -1,0 +1,81 @@
+# TASK
+
+Extract the invoice details from the given text.
+
+# RULES
+
+1. Use the following format to answer the question.
+2. Answer in a concise manner.
+3. If the question is not answerable, say 'I don't know'.
+
+# SCHEMA
+
+{
+  "properties": {
+    "invoice_number": {
+      "title": "Invoice Number",
+      "type": "string"
+    },
+    "date": {
+      "title": "Date",
+      "type": "string"
+    },
+    "total_amount": {
+      "title": "Total Amount",
+      "type": "number"
+    },
+    "vendor": {
+      "title": "Vendor",
+      "type": "string"
+    }
+  },
+  "required": [
+    "invoice_number",
+    "date",
+    "total_amount",
+    "vendor"
+  ],
+  "title": "InvoiceSchema",
+  "type": "object"
+}
+
+# EXAMPLES
+
+## Example 1
+
+INPUT
+
+Invoice #12345 from ABC Corp dated 2023-01-01 with total amount $1000.
+
+OUTPUT
+
+{
+  "invoice_number": "12345",
+  "date": "2023-01-01",
+  "total_amount": 1000.0,
+  "vendor": "ABC Corp"
+}
+
+## Example 2
+
+INPUT
+
+Invoice #67890 from XYZ Inc dated 2023-02-01 with total amount $2000.
+
+OUTPUT
+
+{
+  "invoice_number": "67890",
+  "date": "2023-02-01",
+  "total_amount": 2000.0,
+  "vendor": "XYZ Inc"
+}
+
+
+# INPUT
+
+Invoice #54321 from DEF Ltd dated 2023-03-01 with total amount $1500.
+
+# RESPONSE
+
+Return valid JSON only.
