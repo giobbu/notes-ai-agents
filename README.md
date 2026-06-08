@@ -19,6 +19,7 @@ In `/steps`:
 * [10-token-budgte-per-session](https://github.com/giobbu/notes-ai-agents/blob/main/steps/10_token_budget.ipynb)
 * [11-semantic-caching](https://github.com/giobbu/notes-ai-agents/blob/main/steps/11_semantic_cache.ipynb)
 * [12-semantic-routing](https://github.com/giobbu/notes-ai-agents/blob/main/steps/12_semantic_route.ipynb)
+* [13-how-to-build-prompt-template](https://github.com/giobbu/notes-ai-agents/blob/main/steps/13_prompt_builder.ipynb)
 
 In `/agent`:
 
