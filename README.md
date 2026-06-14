@@ -4,6 +4,14 @@
 ## Overview
 This repository contains a series of notebooks that progressively build and evaluate LLM-powered chatbot, rag and agents systems. The focus is on experimentation with safeguards, observability, and evaluation frameworks.
 
+In `/checklist` folder:
+```bash
+checklists
+├── 0_tool_design.ipynb
+├── 1_metrics_eval_agents.ipynb
+├── 2_safety_measures.ipynb
+└── 3_deployment.ipynb
+```
 
 In `/steps` folder:
 ```bash
@@ -41,7 +49,7 @@ steps
         └── car.jpeg
     ```
 
-In `/advanced`:
+In `/advanced` folder:
 ```bash
 advanced
 ├── agent
